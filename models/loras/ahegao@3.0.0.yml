@@ -1,0 +1,7 @@
+type: lora
+format: safetensors
+source:
+  civitai:
+    model_id: 401685
+    model_version_id: 1375152
+    model_file_id: 1278075
