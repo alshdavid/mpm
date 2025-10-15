@@ -1,0 +1,7 @@
+type: checkpoint
+format: safetensors
+source:
+  civitai:
+    model_id: 443821
+    model_version_id: 2255476
+    model_file_id: 2147797
