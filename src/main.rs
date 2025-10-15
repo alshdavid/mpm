@@ -9,8 +9,8 @@ mod platform;
 pub enum RootCommandType {
     /// Add a model to the current project
     Add(cmd::add::AddCommand),
-    /// Remove a model from the current project
-    Remove(cmd::remove::RemoveCommand),
+    /// Install all models defined in the models.yml
+    Install(cmd::install::InstallCommand),
 }
 
 #[derive(Parser, Debug)]
@@ -27,6 +27,6 @@ async fn main() -> anyhow::Result<()> {
 
     match args.command {
         RootCommandType::Add(cmd) => cmd::add::main(cmd).await,
-        RootCommandType::Remove(cmd) => cmd::remove::main(cmd).await,
+        RootCommandType::Install(cmd) => cmd::install::main(cmd).await,
     }
 }
