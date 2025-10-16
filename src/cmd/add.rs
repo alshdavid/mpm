@@ -36,22 +36,22 @@ pub async fn main(cmd: AddCommand) -> anyhow::Result<()> {
     // dbg!(&cmd);
     println!("Resolving:      \"{}\"", cmd.model);
 
-    let mut download_url = None::<AddResult>;
-
-    // https://civitai.com/models/140272
-    // https://civitai.com/models/140272?modelVersionId=2262382
-    // https://civitai.com/api/download/models/2262382?type=Model&format=SafeTensor&size=pruned&fp=fp16
-    if cmd.model.starts_with("https://civitai.com") {
-        download_url = super::add_civit::main(&cmd).await?;
-    }
-    // https://example.com/model.safetensors
-    else if cmd.model.starts_with("https://") {
-        download_url = super::add_direct::main(&cmd).await?;
-    }
-    // pony@6.0.0
-    else {
-        download_url = super::add_known::main(&cmd).await?;
-    }
+    let download_url = {
+        // https://civitai.com/models/140272
+        // https://civitai.com/models/140272?modelVersionId=2262382
+        // https://civitai.com/api/download/models/2262382?type=Model&format=SafeTensor&size=pruned&fp=fp16
+        if cmd.model.starts_with("https://civitai.com") {
+            super::add_civit::main(&cmd).await?
+        }
+        // https://example.com/model.safetensors
+        else if cmd.model.starts_with("https://") {
+            super::add_direct::main(&cmd).await?
+        }
+        // pony@6.0.0
+        else {
+            super::add_known::main(&cmd).await?
+        }
+    };
 
     let Some(AddResult {
         download_url,
@@ -63,6 +63,7 @@ pub async fn main(cmd: AddCommand) -> anyhow::Result<()> {
     else {
         return Err(anyhow::anyhow!("Unable to resolve download URL"));
     };
+
     println!("Resolved:       \"{}\"", file_stem);
 
     let out_dir = match cmd.out_dir {
