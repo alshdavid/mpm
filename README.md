@@ -9,6 +9,10 @@ This will download `Pony Diffusion V6` from civitai to `./models/checkpoints/pon
 export CIVITAI_TOKEN="token"
 
 mpm add pony@6.0.0
+
+# Or directly from CivitAI URLs (--name is optional)
+mpm add "https://civitai.com/models/257749" --name pony@6.0.0
+mpm add "https://civitai.com/api/download/models/290640?type=Model&format=SafeTensor&size=pruned&fp=fp16" --name pony@6.0.0
 ```
 
 ### Without Version Specifiers
