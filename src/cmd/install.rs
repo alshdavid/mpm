@@ -16,13 +16,12 @@ pub async fn main(cmd: InstallCommand) -> anyhow::Result<()> {
 
     for (model_name, model_version) in models_yaml.models {
         crate::cmd::add::main(crate::cmd::add::AddCommand {
-            model: format!("{}@{}", model_name, model_version),
+            model: model_version,
             out_dir: None,
+            name: Some(model_name),
             civitai_token: cmd.civitai_token.clone(),
         })
         .await?;
-
-        println!("")
     }
 
     Ok(())

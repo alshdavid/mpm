@@ -1,5 +1,6 @@
 use std::fs::File;
 use std::io::Write;
+use std::path::Path;
 
 use futures_util::StreamExt;
 use tokio::sync::mpsc::UnboundedReceiver;
@@ -16,13 +17,13 @@ pub struct DownloadProgress {
 
 pub fn download_file(
     url: &str,
-    path: &str,
+    path: &Path,
 ) -> DownloadProgressReceiver {
     let (tx, rx) = unbounded_channel();
 
     tokio::spawn({
         let url = url.to_string();
-        let path = path.to_string();
+        let path = path.to_path_buf();
 
         async move {
             let _ = 'block: {
