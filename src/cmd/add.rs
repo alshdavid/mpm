@@ -6,6 +6,15 @@ use indicatif::ProgressBar;
 use crate::platform::download::download_file;
 use crate::platform::models_yaml::ModelsYaml;
 
+#[derive(Debug)]
+pub struct AddResult {
+    pub download_url: String,
+    pub download_url_safe: String,
+    pub model_type: String,
+    pub file_name: String,
+    pub file_stem: String,
+}
+
 #[derive(Debug, Parser, Clone)]
 pub struct AddCommand {
     /// Name or URL of the model to add
@@ -37,11 +46,11 @@ pub async fn main(cmd: AddCommand) -> anyhow::Result<()> {
     }
     // https://example.com/model.safetensors
     else if cmd.model.starts_with("https://") {
-        return super::add_direct::main(&cmd).await;
+        download_url = super::add_direct::main(&cmd).await?;
     }
     // pony@6.0.0
     else {
-        super::add_known::main(&cmd).await?;
+        download_url = super::add_known::main(&cmd).await?;
     }
 
     let Some(AddResult {
@@ -100,13 +109,4 @@ pub async fn main(cmd: AddCommand) -> anyhow::Result<()> {
     models_yaml.write_file(&models_yaml_path).await?;
 
     Ok(())
-}
-
-#[derive(Debug)]
-pub struct AddResult {
-    pub download_url: String,
-    pub download_url_safe: String,
-    pub model_type: String,
-    pub file_name: String,
-    pub file_stem: String,
 }

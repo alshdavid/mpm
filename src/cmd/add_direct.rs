@@ -1,9 +1,6 @@
-// https://civitai.com/models/140272
-// https://civitai.com/models/140272?modelVersionId=2262382
-// https://civitai.com/api/download/models/2262382?type=Model&format=SafeTensor&size=pruned&fp=fp16
-
 use super::add::AddCommand;
+use super::add::AddResult;
 
-pub async fn main(cmd: &AddCommand) -> anyhow::Result<()> {
-    Ok(())
+pub async fn main(_cmd: &AddCommand) -> anyhow::Result<Option<AddResult>> {
+    Ok(None)
 }
